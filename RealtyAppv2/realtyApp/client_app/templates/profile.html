@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <h2>Profile</h2>
+    <p>Welcome, {{ user.username }}!</p>
+
+    <h2>{{ client.user.email }}'s Listings</h2>
+    <ul>
+        {% for listing in listings %}
+            <li>{{ listing.title }} - {{ listing.price }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

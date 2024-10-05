@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Client, Listing
+from base.models import Listing
+from client_app.models import Client
 
 
 @admin.register(Client)
