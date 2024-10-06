@@ -1,0 +1,145 @@
+{% extends "listings/base_generic.html" %}
+
+<head>
+    <style>
+        /* Styles for the create listing button */
+        .create-listing-btn {
+            display: inline-block;
+            margin: 20px auto;
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Center the button and navigation actions */
+        .button-container {
+            text-align: center; /* Center text and inline-block elements */
+            margin: 20px 0; /* Optional margin for spacing */
+        }
+
+        /* Flexbox container for listings and map */
+        .container {
+            display: flex;
+            justify-content: space-between; /* Space between listings and map */
+            margin: 20px; /* Optional margin for spacing */
+        }
+
+        /* Style for listings container */
+        .listings-container {
+            flex: 2; /* Allow listings to take more space */
+            margin-right: 20px; /* Space between listings and map */
+        }
+
+        /* Style for the list of listings */
+        .listings {
+            list-style-type: none; /* Remove default list styling */
+            padding: 0; /* Remove default padding */
+        }
+
+        /* Style for individual listing items */
+        .listing {
+            border: 1px solid #ccc; /* Border around each listing */
+            border-radius: 5px; /* Rounded corners */
+            margin-bottom: 20px; /* Space between listings */
+            padding: 10px; /* Padding inside each listing */
+        }
+
+        /* Style for listing images */
+        .listing-image {
+            max-width: 100%; /* Responsive image */
+            height: auto; /* Maintain aspect ratio */
+            object-fit: cover; /* Crop image if needed */
+            max-height: 200px; /* Fixed height for the images */
+        }
+
+        /* Style for the map container */
+        .map-container {
+            flex: 1; /* Allow map to take less space */
+            max-width: 400px; /* Optional max-width for the map */
+        }
+
+        /* Filter form styling */
+        .filter-form {
+            margin: 20px 0; /* Margin for the filter form */
+        }
+
+        /* Style for the buttons */
+        .view-details-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .view-details-btn:hover {
+            background-color: #0056b3; /* Darken button on hover */
+        }
+    </style>
+</head>
+
+{% block content %}
+  <h2>All Listings</h2>
+
+  <div class="button-container">
+    {% if user.is_authenticated %}
+      <a href="{% url 'create_listing' %}" class="create-listing-btn">Create New Listing</a>
+    {% endif %}
+
+    <form method="GET" class="filter-form" style="display: inline-block;">
+      <label for="category">Category:</label>
+      <select name="category" id="category">
+        <option value="">--Select--</option>
+        <option value="Buy">Buy</option>
+        <option value="Rent">Rent</option>
+        <option value="Sell">Sell</option>
+      </select>
+
+      <label for="city">City:</label>
+      <input type="text" name="city" id="city" placeholder="Enter city">
+
+      <button type="submit">Filter</button>
+    </form>
+  </div>
+
+  <div class="container">
+      <div class="listings-container">
+          <ul class="listings">
+            {% for listing in listings %}
+              <li class="listing">
+                <h3>{{ listing.title }} - {{ listing.category }}</h3>
+
+                {% if listing.image %}
+                  <img src="{{ listing.image.url }}" alt="{{ listing.title }}" class="listing-image"/>
+                {% endif %}
+
+                <div class="listing-details">
+                  <p><strong>Price:</strong> ${{ listing.price }}</p>
+                  <p><strong>Description:</strong> {{ listing.description }}</p>
+                  <p><strong>Location:</strong> {{ listing.city }}, {{ listing.str_number }}, {{ listing.str_address }}</p>
+                  {% if listing.coordinates %}
+                    <p><strong>Coordinates:</strong> {{ listing.coordinates.latitude }}, {{ listing.coordinates.longitude }}</p>
+                  {% endif %}
+
+                  <a href="{% url 'listing_detail' listing.id %}" class="view-details-btn">View Details</a>
+                </div>
+              </li>
+            {% empty %}
+              <li>No listings available.</li>
+            {% endfor %}
+          </ul>
+      </div>
+
+      <div class="map-container">
+          <div id="map">
+              {{ map_html|safe }}
+          </div>
+      </div>
+  </div>
+{% endblock %}

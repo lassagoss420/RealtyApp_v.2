@@ -1,0 +1,87 @@
+{% extends "listings/base_generic.html" %}
+
+<head>
+    <style>
+        /* Style for listing images */
+        .listing-image {
+            max-width: 100%;
+            height: auto; /* Maintain aspect ratio */
+            object-fit: cover; /* Crop image if needed */
+            max-height: 200px; /* Fixed height for the images */
+        }
+
+        /* Flexbox container for details and carousel */
+        .listing-container {
+            display: flex;
+            justify-content: space-between; /* Space between details and carousel */
+            align-items: flex-start; /* Align items at the start */
+            margin: 20px; /* Optional margin for spacing */
+        }
+
+        /* Style for listing details */
+        .listing-details {
+            flex: 1; /* Allow details to take available space */
+            margin-right: 20px; /* Space between details and carousel */
+        }
+
+        /* Style for the carousel */
+        .carousel {
+            flex: 1; /* Allow carousel to take available space */
+            max-width: 400px; /* Set a maximum width for the carousel */
+        }
+
+        /* Optional styling for the buttons */
+        .listing-actions {
+            margin-top: 20px;
+        }
+
+        /* Style for the "Back to Listings" link */
+        a {
+            margin-top: 20px;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+{% block content %}
+  <h1>{{ listing.title }}</h1>
+
+  <div class="listing-container">
+      <div class="listing-details">
+          <p><strong>Price:</strong> ${{ listing.price }}</p>
+          <p><strong>Address:</strong> {{ listing.str_address }}, {{ listing.str_number }}, {{ listing.city }}</p>
+          <p><strong>Description:</strong> {{ listing.description }}</p>
+      </div>
+
+      <div id="carouselExample" class="carousel slide" data-ride="carousel">
+          <div class="carousel-inner">
+              {% for image in listing.images.all %}
+              <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                  <img src="{{ image.image.url }}" class="d-block w-100 listing-image" alt="Image of {{ listing.title }}">
+              </div>
+              {% endfor %}
+          </div>
+          <a class="carousel-control-prev" href="#carouselExample" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carouselExample" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+          </a>
+      </div>
+  </div>
+
+  {% if request.user == listing.user %}
+      <div class="listing-actions">
+          <a href="{% url 'edit_listing' listing.id %}" class="btn btn-primary">Edit Listing</a>
+          <form action="{% url 'delete_listing' listing.id %}" method="POST" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger">Delete Listing</button>
+          </form>
+      </div>
+  {% endif %}
+
+  <a href="{% url 'home' %}">Back to Listings</a>
+
+{% endblock %}

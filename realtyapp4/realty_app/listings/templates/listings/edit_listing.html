@@ -1,0 +1,21 @@
+{% extends "listings/base_generic.html" %}
+{% block content %}
+  <h1>Edit Listing</h1>
+
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <h2>Upload Images</h2>
+    {{ image_form.images.label_tag }}
+    {{ image_form.images }}
+
+    <button type="submit">Save Changes</button>
+  </form>
+
+  <h2>Existing Images</h2>
+  {% for image in listing.listingimage_set.all %}
+    <img src="{{ image.image.url }}" alt="Listing Image" style="width: 100px; height: auto;"/>
+  {% endfor %}
+
+{% endblock %}

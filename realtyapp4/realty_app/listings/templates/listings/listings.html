@@ -1,0 +1,16 @@
+{% extends "listings/base_generic.html" %}
+{% block content %}
+  <h2>Your Listings</h2>
+  <ul>
+    {% for listing in listings %}
+      <li>
+        <h3>{{ listing.title }} - {{ listing.category }}</h3>
+        {% if listing.image %}
+          <img src="{{ listing.image.url }}" alt="{{ listing.title }}" style="max-width: 200px;"/>
+        {% endif %}
+        <p>Price: ${{ listing.price }}</p>
+        <p>{{ listing.description }}</p>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

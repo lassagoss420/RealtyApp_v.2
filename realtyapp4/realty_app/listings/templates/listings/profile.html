@@ -1,0 +1,9 @@
+{% extends "listings/base_generic.html" %}
+{% block content %}
+  <h2>Profile</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ profile_form.as_p }}
+    <button type="submit">Update Profile</button>
+  </form>
+{% endblock %}

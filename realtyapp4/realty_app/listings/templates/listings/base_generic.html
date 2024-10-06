@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Listing App{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Centered Navigation Styles */
+        nav {
+            text-align: center; /* Center navigation links */
+            margin: 20px 0; /* Space above and below the nav */
+        }
+
+        nav a {
+            margin: 0 15px; /* Space between navigation links */
+            text-decoration: none;
+            color: #007bff; /* Link color */
+        }
+
+        nav a:hover {
+            text-decoration: underline; /* Underline on hover */
+        }
+
+        /* Header Styles */
+        h2 {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        /* Create Listing Button */
+        .create-listing-btn {
+            display: inline-block;
+            margin: 20px auto;
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .create-listing-btn:hover {
+            background-color: #218838;
+        }
+
+        /* Filter Form Styles */
+        .filter-form {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        label {
+            margin-right: 10px;
+        }
+
+        input[type="text"], select {
+            padding: 8px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Container Styles for Layout */
+        .container {
+            display: flex;
+            justify-content: space-between;  /* Spaces out child elements */
+        }
+
+        /* Listings Container */
+        .listings-container {
+            flex: 1;  /* Allow the listings to take up remaining space */
+            margin-right: 20px;  /* Space between listings and map */
+        }
+
+        .listings {
+            list-style: none;
+            padding: 0;
+        }
+
+        .listing {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 15px 0;
+            padding: 15px;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .listing:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .listing-image {
+            max-width: 100%;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .listing-details {
+            padding: 10px 0;
+        }
+
+        /* View Details Button */
+        .view-details-btn {
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .view-details-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Map Container */
+        .map-container {
+            flex: 0 0 657px;  /* Fixed width for the map */
+        }
+
+        #map {
+            height: 400px;
+            width: 400px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="{% url 'home' %}">Home</a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'profile' %}">Profile</a>
+            <a href="{% url 'logout' %}">Logout</a>
+        {% else %}
+            <a href="{% url 'register' %}">Register</a>
+            <a href="{% url 'login' %}">Login</a>
+        {% endif %}
+    </nav>
+
+    <div>
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</body>
+</html>
