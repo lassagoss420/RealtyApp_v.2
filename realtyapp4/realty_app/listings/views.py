@@ -19,7 +19,7 @@ def home(request):
         listings = listings.filter(city__iexact=city_filter)
 
     map_center = [45.9852129, 24.6859225]
-    folium_map = folium.Map(location=map_center, zoom_start=7)
+    folium_map = folium.Map(location=map_center, zoom_start=6 )
 
     for listing in listings:
         if listing.coordinates and listing.coordinates.latitude and listing.coordinates.longitude:

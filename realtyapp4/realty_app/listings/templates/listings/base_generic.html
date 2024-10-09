@@ -38,6 +38,11 @@
             margin: 20px 0;
         }
 
+        .button-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
         /* Create Listing Button */
         .create-listing-btn {
             display: inline-block;
@@ -143,10 +148,11 @@
 
         /* Map Container */
         .map-container {
-            flex: 0 0 657px;  /* Fixed width for the map */
+            flex: 1;
         }
 
         #map {
+            flex: 1;
             height: 400px;
             width: 400px;
             border: 2px solid #ccc;
@@ -161,7 +167,10 @@
         <a href="{% url 'home' %}">Home</a>
         {% if user.is_authenticated %}
             <a href="{% url 'profile' %}">Profile</a>
-            <a href="{% url 'logout' %}">Logout</a>
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit">Logout</button>
+            </form>
         {% else %}
             <a href="{% url 'register' %}">Register</a>
             <a href="{% url 'login' %}">Login</a>

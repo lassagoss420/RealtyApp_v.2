@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Listing App{% endblock %}</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+    <!-- Custom Styles -->
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav {
+            background-color: #333;
+            color: white;
+            padding: 1em;
+        }
+
+        nav a {
+            color: white;
+            margin-right: 15px;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        #map {
+            height: 400px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .listings {
+            list-style: none;
+            padding: 0;
+        }
+
+        .listing {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+
+        .listing-image {
+            max-width: 200px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .view-details-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 12px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .view-details-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="{% url 'home' %}">Home</a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'profile' %}">Profile</a>
+            <a href="{% url 'logout' %}">Logout</a>
+        {% else %}
+            <a href="{% url 'register' %}">Register</a>
+            <a href="{% url 'login' %}">Login</a>
+        {% endif %}
+    </nav>
+
+    <!-- Content Block -->
+    <div>
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</body>
+</html>
